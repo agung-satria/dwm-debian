@@ -112,6 +112,7 @@ static const char *termcmd[]  = { "alacritty", NULL };
 #include <X11/XF86keysym.h>
 
 
+#include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
  /* volume and brightness */
@@ -134,6 +135,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_n,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = +0.25} },
 	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = -0.25} },
 	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
