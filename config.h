@@ -14,7 +14,7 @@ static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows sel
 static const unsigned int systrayonleft = 0;   	/* 0: systray in the right corner, >0: systray on left of status text */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static const int showsystray        = 1;     /* 0 means no systray */
+static int showsystray        = 0;     /* 0 means no systray */
 static const int showbar            = 1;     /* 0 means no bar */
 static const int topbar             = 1;     /* 0 means bottom bar */
 /*  Display modes of the tab bar: never shown, always shown, shown only in  */
@@ -77,12 +77,12 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 /*0*/	{ "[]=",   tile },    /* first entry is default */
-/*1*/	{ "[M]",   monocle },
-/*2*/	{ "[@]",   spiral },
-/*3*/	{ "[\\]",  dwindle },
-/*4*/	{ "H[]",   deck },
-/*5*/	{ "TTT",   bstack },
-/*6*/	{ "===",   bstackhoriz },
+/*1*/	{ "TTT",   bstack },
+/*2*/	{ "===",   bstackhoriz },
+/*3*/	{ "[M]",   monocle },
+/*4*/	{ "[@]",   spiral },
+/*5*/	{ "[\\]",  dwindle },
+/*6*/	{ "H[]",   deck },
 /*7*/	{ "HHH",   grid },
 /*8*/	{ "###",   nrowgrid },
 /*9*/	{ "---",   horizgrid },
@@ -128,6 +128,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             		XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+    	{ MODKEY|ShiftMask,             XK_b,      togglesystray,  {0} },
 	{ MODKEY|ControlMask,           XK_w,      tabmode,        {-1} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -150,10 +151,10 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[5]} },
-	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[7]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[6]} },
 	{ MODKEY,             		XK_g,      setlayout,      {.v = &layouts[10]} },
 	{ MODKEY,             		XK_u,      setlayout,      {.v = &layouts[11]} },
 	{ MODKEY,             		XK_f,      setlayout,      {.v = &layouts[13]} },

@@ -265,6 +265,7 @@ static Monitor *systraytomon(Monitor *m);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void togglebar(const Arg *arg);
+static void togglesystray();
 static void togglefloating(const Arg *arg);
 static void togglescratch(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -1903,6 +1904,19 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
 	XSync(dpy, False);
+}
+
+void
+togglesystray()
+{
+    if (showsystray) {
+               showsystray = 0;
+               XUnmapWindow(dpy, systray->win);
+    } else {
+        showsystray = 1;
+    }
+    updatesystray();
+    updatestatus();
 }
 
 void
