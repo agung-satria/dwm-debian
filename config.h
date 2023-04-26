@@ -17,8 +17,15 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;     /* 0 means no bar */
 static const int topbar             = 1;     /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=13" };
-static const char dmenufont[]       = "monospace:size=13";
+/*  Display modes of the tab bar: never shown, always shown, shown only in  */
+/*  monocle mode in the presence of several windows.                        */
+/*  Modes after showtab_nmodes are disabled.                                */
+enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
+static const int showtab			= showtab_auto;        /* Default tab bar show mode */
+static const int toptab				= False;               /* False means bottom tab bar */
+
+static const char *fonts[]          = { "monospace:size=12" };
+static const char dmenufont[]       = "monospace:size=12";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -54,21 +61,21 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 // #include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
-	{ "[@]",      spiral },
-	{ "[\\]",     dwindle },
-	{ "H[]",      deck },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
-	{ "HHH",      grid },
-	{ "###",      nrowgrid },
-	{ "---",      horizgrid },
-	{ ":::",      gaplessgrid },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ NULL,       NULL },
+/*0*/	{ "[]=",   tile },    /* first entry is default */
+/*1*/	{ "[M]",   monocle },
+/*2*/	{ "[@]",   spiral },
+/*3*/	{ "[\\]",  dwindle },
+/*4*/	{ "H[]",   deck },
+/*5*/	{ "TTT",   bstack },
+/*6*/	{ "===",   bstackhoriz },
+/*7*/	{ "HHH",   grid },
+/*8*/	{ "###",   nrowgrid },
+/*9*/	{ "---",   horizgrid },
+/*10*/	{ ":::",   gaplessgrid },
+/*11*/	{ "|M|",   centeredmaster },
+/*12*/	{ ">M>",   centeredfloatingmaster },
+/*13*/	{ "><>",   NULL }, /* no layout function means floating behavior */
+/*14*/	{ NULL,    NULL },
 };
 
 /* key definitions */
@@ -104,6 +111,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             		XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	{ MODKEY|ControlMask,           XK_w,      tabmode,        {-1} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_n,      incnmaster,     {.i = +1 } },
@@ -121,15 +129,13 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,	                XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[5]} },
-	{ MODKEY|ShiftMask,             XK_u,      setlayout,      {.v = &layouts[6]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[7]} },
-	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[8]} },
-	{ MODKEY|ShiftMask,             XK_r,      setlayout,      {.v = &layouts[9]} },
-	{ MODKEY,                       XK_semicolon,  setlayout,      {0} },
+	{ MODKEY,             		XK_g,      setlayout,      {.v = &layouts[10]} },
+	{ MODKEY,             		XK_u,      setlayout,      {.v = &layouts[11]} },
+	{ MODKEY,                       XK_semicolon,  setlayout,  {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -165,5 +171,6 @@ static Button buttons[] = {
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+	{ ClkTabBar,            0,              Button1,        focuswin,       {0} },
 };
 
