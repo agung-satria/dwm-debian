@@ -33,11 +33,14 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+static const char col_red[]         = "#770000";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
+	// [SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+	// [SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	// [SchemeTitle]  = { col_gray4, col_cyan,  col_cyan  },
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-	//[SchemeTitle]  = { col_gray4, col_cyan,  col_cyan  },
 	[SchemeTitle]  = { col_gray1, col_gray1,  col_gray2  },
 };
 
@@ -69,8 +72,9 @@ static const Rule rules[] = {
 	{ "Peazip",	  NULL,	      NULL,		    0,		      1,	        -1 },
 	{ "Arandr",	  NULL,	      NULL,		    0,		      1,	        -1 },
 	{ "SimpleScreenRecorder", NULL,NULL,	0,		      1,	        -1 },
+	{ "Galculator",NULL,NULL,	0,		      1,	        -1 },
 	{ "Yad",	    NULL,	      NULL,		    0,		      1,	        -1 },
-	{ "Firefox",  NULL,	      NULL,		    1 << 8,		0,	 -1 },
+	{ "Firefox",  NULL,	      NULL,		    1 << 1,		0,	 -1 },
 	{ NULL,		"spterm", NULL,		SPTAG(0),	1,	 -1 },
 	{ NULL,		"spfm",	  NULL,		SPTAG(1),	1,	 -1 },
 };
@@ -150,6 +154,7 @@ static Key keys[] = {
   { 0,			       XK_Print,	    spawn,		SHCMD("maim ~/Pictures/pic-full-$(date '+%y%m%d-%H%M-%S').png && notify-send '🖼️ Screenshot saved'") },
   { MODKEY|ShiftMask,	 	          XK_s,      spawn,	   SHCMD("maim -s | xclip -selection clipboard -t image/png && notify-send '📋 Screenshot area copied to clipboard'") },
   { ControlMask,                  XK_Print,  spawn,    SHCMD("maim | xclip -selection clipboard -t image/png && notify-send '📋 Screenshot copied to clipboard'") },
+  { ShiftMask,                    XK_Print,  spawn,    SHCMD("maimpick") },
 
 
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
