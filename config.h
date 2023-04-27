@@ -4,9 +4,9 @@
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const unsigned int gappih    = 8;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 8;       /* vert inner gap between windows */
+static const unsigned int snap      = 2;       	/* snap pixel */
+static const unsigned int gappih    = 8;       	/* horiz inner gap between windows */
+static const unsigned int gappiv    = 8;       	/* vert inner gap between windows */
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
@@ -24,8 +24,10 @@ enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always
 static const int showtab			= showtab_auto;        /* Default tab bar show mode */
 static const int toptab				= False;               /* False means bottom tab bar */
 
-static const char *fonts[]          = { "monospace:size=12" };
-static const char dmenufont[]       = "monospace:size=12";
+// static const char *fonts[]          = { "monospace:size=12" };
+// static const char dmenufont[]       = "monospace:size=12";
+static const char *fonts[]          = { "Hack Nerd Font:size=12" };
+static const char dmenufont[]       = "Hack Nerd Font:size=12";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -59,10 +61,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
-	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
-	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
-	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
+	{ "Gimp",	NULL,	  NULL,		0,		1,	 -1 },
+	{ "Firefox",  	NULL,	  NULL,		1 << 8,		0,	 -1 },
+	{ NULL,		"spterm", NULL,		SPTAG(0),	1,	 -1 },
+	{ NULL,		"spfm",	  NULL,		SPTAG(1),	1,	 -1 },
 };
 
 /* layout(s) */
@@ -115,15 +117,17 @@ static const char *termcmd[]  = { "alacritty", NULL };
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
- /* volume and brightness */
-    // { 0,  XF86XK_AudioMute,           spawn, SHCMD("amixer -q -D pulse sset Master toggle") },
-    // { 0,  XF86XK_AudioRaiseVolume,    spawn, SHCMD("amixer -q -D pulse sset Master 5%+") },
-    // { 0,  XF86XK_AudioLowerVolume,    spawn, SHCMD("amixer -q -D pulse sset Master 5%-") },
-    { 0,  XF86XK_AudioMute,           spawn, SHCMD("changevolume toggle") },
-    { 0,  XF86XK_AudioRaiseVolume,    spawn, SHCMD("changevolume up") },
-    { 0,  XF86XK_AudioLowerVolume,    spawn, SHCMD("changevolume down") },
-    { 0,  XF86XK_MonBrightnessUp,        spawn, SHCMD("brightnessctl set +10") },
-    { 0,  XF86XK_MonBrightnessDown,      spawn, SHCMD("brightnessctl set 10-") },
+ 	/* volume and brightness */
+    	{ 0,  XF86XK_AudioMute,           spawn, SHCMD("amixer -q -D pulse sset Master toggle") },
+    	{ 0,  XF86XK_AudioRaiseVolume,    spawn, SHCMD("amixer -q -D pulse sset Master 5%+") },
+    	{ 0,  XF86XK_AudioLowerVolume,    spawn, SHCMD("amixer -q -D pulse sset Master 5%-") },
+    	{ 0,  XF86XK_AudioMute,           spawn, SHCMD("changevolume toggle") },
+    	{ 0,  XF86XK_AudioRaiseVolume,    spawn, SHCMD("changevolume up") },
+    	{ 0,  XF86XK_AudioLowerVolume,    spawn, SHCMD("changevolume down") },
+    	{ 0,  XF86XK_MonBrightnessUp,        spawn, SHCMD("brightnessctl set +10") },
+    	{ 0,  XF86XK_MonBrightnessDown,      spawn, SHCMD("brightnessctl set 10-") },
+
+	{ MODKEY|ShiftMask,            	XK_f,	   spawn,	SHCMD("$FMGR") },
 
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             		XK_Return, spawn,          {.v = termcmd } },
@@ -207,7 +211,7 @@ static Button buttons[] = {
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
