@@ -38,7 +38,7 @@ static const char *colors[][3]      = {
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 	//[SchemeTitle]  = { col_gray4, col_cyan,  col_cyan  },
-	[SchemeTitle]  = { col_gray4, col_gray1,  col_gray2  },
+	[SchemeTitle]  = { col_gray1, col_gray1,  col_gray2  },
 };
 
 typedef struct {
@@ -56,8 +56,8 @@ static Sp scratchpads[] = {
 };
 
 /* tagging */
-// static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+// static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
@@ -132,10 +132,18 @@ static Key keys[] = {
     	{ 0,  XF86XK_AudioMute,           spawn, SHCMD("changevolume toggle") },
     	{ 0,  XF86XK_AudioRaiseVolume,    spawn, SHCMD("changevolume up") },
     	{ 0,  XF86XK_AudioLowerVolume,    spawn, SHCMD("changevolume down") },
-    	{ 0,  XF86XK_MonBrightnessUp,        spawn, SHCMD("brightnessctl set +10") },
-    	{ 0,  XF86XK_MonBrightnessDown,      spawn, SHCMD("brightnessctl set 10-") },
+    	{ 0,  XF86XK_MonBrightnessUp,     spawn, SHCMD("brightnessctl set +10") },
+    	{ 0,  XF86XK_MonBrightnessDown,   spawn, SHCMD("brightnessctl set 10-") },
 
-	{ MODKEY|ShiftMask,            	XK_f,	   spawn,	SHCMD("$FMGR") },
+	{ MODKEY|ShiftMask,            	XK_f,	spawn, SHCMD("$FMGR") },
+  { MODKEY,				        XK_y,         spawn, SHCMD("xcpc") },
+  { MODKEY,               XK_BackSpace, spawn, SHCMD("slock") },
+  { MODKEY,		            XK_apostrophe,spawn, SHCMD("galculator") },
+  { MODKEY,				        XK_p,         spawn, SHCMD("arandr") },
+  // { MODKEY|ShiftMask,	XK_r,        spawn,	    SHCMD(TERMINAL " -c float-st -g 95x28 -e gotop") },
+  // { MODKEY,			      XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
+  { MODKEY|ControlMask,   XK_Return,    spawn,		SHCMD("$TERMINAL -e runtmux") },
+
 
   // Screenshot
   { 0,			       XK_Print,	    spawn,		SHCMD("maim ~/Pictures/pic-full-$(date '+%y%m%d-%H%M-%S').png && notify-send '🖼️ Screenshot saved'") },
