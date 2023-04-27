@@ -52,10 +52,14 @@ typedef struct {
 //const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
 const char *spcmd1[] = {"alacritty", "--class", "spterm", NULL };
 const char *spcmd2[] = {"alacritty", "--class", "spfm", "-e", "lf", NULL };
+const char *spcmd3[] = {"alacritty", "--class", "spncmpcpp", "-e", "ncmpcpp", NULL };
+const char *spcmd4[] = {"alacritty", "--class", "spcalcurse", "-e", "calcurse", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
-	{"spfm",    	spcmd2},
+	{"spfm",    	  spcmd2},
+	{"spncmpcpp",   spcmd3},
+	{"spcalcurse",  spcmd4},
 };
 
 /* tagging */
@@ -68,15 +72,20 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask   isfloating   monitor */
 	{ "Gimp",	    NULL,	      NULL,		    1 << 5,		  0,	        -1 },
+	{ "Inkscape",	NULL,	      NULL,		    1 << 6,		  0,	        -1 },
   { "TelegramDesktop", NULL,NULL,		    1 << 3,		  0,	        -1 },
 	{ "Peazip",	  NULL,	      NULL,		    0,		      1,	        -1 },
 	{ "Arandr",	  NULL,	      NULL,		    0,		      1,	        -1 },
 	{ "SimpleScreenRecorder", NULL,NULL,	0,		      1,	        -1 },
-	{ "Galculator",NULL,NULL,	0,		      1,	        -1 },
+	{ "Galculator",NULL,      NULL,	      0,		      1,	        -1 },
 	{ "Yad",	    NULL,	      NULL,		    0,		      1,	        -1 },
-	{ "Firefox",  NULL,	      NULL,		    1 << 1,		0,	 -1 },
-	{ NULL,		"spterm", NULL,		SPTAG(0),	1,	 -1 },
-	{ NULL,		"spfm",	  NULL,		SPTAG(1),	1,	 -1 },
+	{ "Firefox",  NULL,	      NULL,		    1 << 1,		  0,	        -1 },
+	{ NULL,		"spterm",       NULL,		    SPTAG(0),	  1,	        -1 },
+	{ NULL,		"spfm",	        NULL,		    SPTAG(1),	  1,	        -1 },
+	{ NULL,		"spncmpcpp",    NULL,	      SPTAG(2),	  1,	        -1 },
+	{ NULL,		"spcalcurse",   NULL,       SPTAG(3),	  1,	        -1 },
+	{ "float-alc",NULL,	      NULL,		    0,		      1,	        -1 },
+
 };
 
 /* layout(s) */
@@ -156,6 +165,20 @@ static Key keys[] = {
   { ControlMask,                  XK_Print,  spawn,    SHCMD("maim | xclip -selection clipboard -t image/png && notify-send '📋 Screenshot copied to clipboard'") },
   { ShiftMask,                    XK_Print,  spawn,    SHCMD("maimpick") },
 
+  // mpd control
+  { MODKEY,			        XK_backslash,		spawn,		SHCMD("mpc -p 6601 toggle") },
+  { MODKEY|ShiftMask,			XK_backslash,		spawn,		SHCMD("mpc -p 6601 stop") },
+  { MODKEY,			        XK_bracketleft,	    	spawn,		SHCMD("mpc -p 6601 prev") },
+  { MODKEY,			        XK_bracketright,	spawn,		SHCMD("mpc -p 6601 next") },
+  { MODKEY|ShiftMask,			XK_bracketleft,		spawn,		SHCMD("mpc -p 6601 seek -5") },
+  { MODKEY|ShiftMask,			XK_bracketright,	spawn,		SHCMD("mpc -p 6601 seek +5") },
+  { MODKEY|ControlMask,		XK_bracketleft,		spawn,		SHCMD("mpc -p 6601 seek -30") },
+  { MODKEY|ControlMask,		XK_bracketright,	spawn,		SHCMD("mpc -p 6601 seek +30") },
+
+  // floathings
+  { MODKEY|ShiftMask,	  XK_r,		  spawn,		SHCMD("alacritty --class float-alc -e htop") },
+  { MODKEY|ControlMask, XK_n,		  spawn,		SHCMD("alacritty --class float-alc -e nmtui") },
+
 
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             		XK_Return, spawn,          {.v = termcmd } },
@@ -217,7 +240,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY|ShiftMask,           	XK_Return, togglescratch,  {.ui = 0 } },
-	{ MODKEY,            		XK_e,	   togglescratch,  {.ui = 1 } },
+	{ MODKEY,            		        XK_e,	     togglescratch,  {.ui = 1 } },
+	{ MODKEY|ShiftMask,             XK_m,	     togglescratch,  {.ui = 2 } },
+	{ MODKEY,            		        XK_c,	     togglescratch,  {.ui = 3 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
