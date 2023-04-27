@@ -56,15 +56,21 @@ static Sp scratchpads[] = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+// static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",	NULL,	  NULL,		0,		1,	 -1 },
-	{ "Firefox",  	NULL,	  NULL,		1 << 8,		0,	 -1 },
+	/* class      instance    title       tags mask   isfloating   monitor */
+	{ "Gimp",	    NULL,	      NULL,		    1 << 5,		  0,	        -1 },
+  { "TelegramDesktop", NULL,NULL,		    1 << 3,		  0,	        -1 },
+	{ "Peazip",	  NULL,	      NULL,		    0,		      1,	        -1 },
+	{ "Arandr",	  NULL,	      NULL,		    0,		      1,	        -1 },
+	{ "SimpleScreenRecorder", NULL,NULL,	0,		      1,	        -1 },
+	{ "Yad",	    NULL,	      NULL,		    0,		      1,	        -1 },
+	{ "Firefox",  NULL,	      NULL,		    1 << 8,		0,	 -1 },
 	{ NULL,		"spterm", NULL,		SPTAG(0),	1,	 -1 },
 	{ NULL,		"spfm",	  NULL,		SPTAG(1),	1,	 -1 },
 };
@@ -130,6 +136,12 @@ static Key keys[] = {
     	{ 0,  XF86XK_MonBrightnessDown,      spawn, SHCMD("brightnessctl set 10-") },
 
 	{ MODKEY|ShiftMask,            	XK_f,	   spawn,	SHCMD("$FMGR") },
+
+  // Screenshot
+  { 0,			       XK_Print,	    spawn,		SHCMD("maim ~/Pictures/pic-full-$(date '+%y%m%d-%H%M-%S').png && notify-send '🖼️ Screenshot saved'") },
+  { MODKEY|ShiftMask,	 	          XK_s,      spawn,	   SHCMD("maim -s | xclip -selection clipboard -t image/png && notify-send '📋 Screenshot area copied to clipboard'") },
+  { ControlMask,                  XK_Print,  spawn,    SHCMD("maim | xclip -selection clipboard -t image/png && notify-send '📋 Screenshot copied to clipboard'") },
+
 
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             		XK_Return, spawn,          {.v = termcmd } },
