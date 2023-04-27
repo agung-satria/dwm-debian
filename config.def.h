@@ -83,6 +83,7 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
+#include "shiftview.c"
 // #include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -172,6 +173,8 @@ static Key keys[] = {
 	{ MODKEY,    			XK_x,      incrgaps,       {.i = -3 } },
 	{ MODKEY,    			XK_a,      togglegaps,     {0} },
 	{ MODKEY|ShiftMask,    		XK_a,      defaultgaps,    {0} },
+  { MODKEY,			                  XK_i,		   shiftview,	     { .i = -1 } },
+	{ MODKEY,			                  XK_o,	     shiftview,	     { .i = 1 } },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,	                XK_q,      killclient,     {0} },
 	{ MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } },
