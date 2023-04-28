@@ -75,6 +75,7 @@ static const Rule rules[] = {
 	{ "Inkscape",	NULL,	      NULL,		    1 << 6,		  0,	        -1 },
   { "TelegramDesktop", NULL,NULL,		    1 << 3,		  0,	        -1 },
 	{ "Peazip",	  NULL,	      NULL,		    0,		      1,	        -1 },
+	{ "Pavucontrol",NULL,	    NULL,		    0,		      1,	        -1 },
 	{ "Arandr",	  NULL,	      NULL,		    0,		      1,	        -1 },
 	{ "SimpleScreenRecorder", NULL,NULL,	0,		      1,	        -1 },
 	{ "Galculator",NULL,      NULL,	      0,		      1,	        -1 },
@@ -177,6 +178,8 @@ static Key keys[] = {
 
   // floathings
   { MODKEY|ShiftMask,	  XK_r,		  spawn,		SHCMD("alacritty --class float-alc -e htop") },
+  { MODKEY|ShiftMask,	  XK_r,		  spawn,		SHCMD("alacritty --class float-alc -e htop") },
+  { MODKEY,			        XK_F4,		spawn,		SHCMD("alacritty --class float-alc -e pulsemixer") },
   { MODKEY|ControlMask, XK_n,		  spawn,		SHCMD("alacritty --class float-alc -e nmtui") },
 
 
