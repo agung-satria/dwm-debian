@@ -81,6 +81,8 @@ static const Rule rules[] = {
 	{ "Arandr",	  NULL,	      NULL,		    0,		      1,	        -1 },
 	{ "SimpleScreenRecorder", NULL,NULL,	0,		      1,	        -1 },
 	{ "Galculator",NULL,      NULL,	      0,		      1,	        -1 },
+	{ "Nm-connection-editor",NULL,NULL,   0,		      1,	        -1 },
+	{ "xdman-Main",NULL,      NULL,	      0,		      1,	        -1 },
 	{ "Yad",	    NULL,	      NULL,		    0,		      1,	        -1 },
 	{ "Firefox",  NULL,	      NULL,		    1 << 1,		  0,	        -1 },
 	{ NULL,		"spterm",       NULL,		    SPTAG(0),	  1,	        -1 },
@@ -152,7 +154,10 @@ static Key keys[] = {
     	{ 0,  XF86XK_MonBrightnessUp,     spawn, SHCMD("brightnessctl set +10") },
     	{ 0,  XF86XK_MonBrightnessDown,   spawn, SHCMD("brightnessctl set 10-") },
 
-	{ MODKEY|ShiftMask,            	XK_f,	spawn, SHCMD("$FMGR") },
+  { MODKEY,				        XK_r, spawn,  SHCMD("rofi -show drun") },
+	{ MODKEY,            	  XK_w,	spawn,  SHCMD("$BROWSER") },
+	{ MODKEY|ShiftMask,     XK_w,	spawn,  SHCMD("$BROWSER --private-window") },
+	{ MODKEY|ShiftMask,     XK_f,	spawn,  SHCMD("$FMGR") },
   { MODKEY,				        XK_y,         spawn, SHCMD("xcpc") },
   { MODKEY,               XK_BackSpace, spawn, SHCMD("slock") },
   { MODKEY,		            XK_apostrophe,spawn, SHCMD("galculator") },
@@ -160,7 +165,6 @@ static Key keys[] = {
   // { MODKEY|ShiftMask,	XK_r,        spawn,	    SHCMD(TERMINAL " -c float-st -g 95x28 -e gotop") },
   // { MODKEY,			      XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
   { MODKEY|ControlMask,   XK_Return,    spawn,		SHCMD("$TERMINAL -e runtmux") },
-
 
   // Screenshot
   { 0,			       XK_Print,	    spawn,		SHCMD("maim ~/Pictures/pic-full-$(date '+%y%m%d-%H%M-%S').png && notify-send '🖼️ Screenshot saved'") },
@@ -179,7 +183,6 @@ static Key keys[] = {
   { MODKEY|ControlMask,		XK_bracketright,	spawn,		SHCMD("mpc -p 6601 seek +30") },
 
   // floathings
-  { MODKEY|ShiftMask,	  XK_r,		  spawn,		SHCMD("alacritty --class float-alc -e htop") },
   { MODKEY|ShiftMask,	  XK_r,		  spawn,		SHCMD("alacritty --class float-alc -e htop") },
   { MODKEY,			        XK_F4,		spawn,		SHCMD("alacritty --class float-alc -e pulsemixer") },
   { MODKEY|ControlMask, XK_n,		  spawn,		SHCMD("alacritty --class float-alc -e nmtui") },
